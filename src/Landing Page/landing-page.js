@@ -4,9 +4,9 @@ import '../css/landing-page.css'
 const LandingPage  = () => {
     return (
         <div>
-             <nav className="navbar navbar-expand-lg bg-light default-layout__inner">
+             <nav className="navbar navbar-expand-lg  default-layout__inner">
       <div className="container py-3">
-        <h1 className="navbar-logo">Rockify-music</h1>
+        <h1 className="navbar-logo">RockifyMusic</h1>
         <i
           className="navbar-toggler bi bi-list"
           data-bs-toggle="collapse"
@@ -33,10 +33,13 @@ const LandingPage  = () => {
                    <li className="list-item p-2">
               Contact
               </li>
-          </ul>
+          </ul>33
         </div>
       </div>
     </nav>
+    <div className='home-section'>
+
+    </div>
         </div>
     );
 }
