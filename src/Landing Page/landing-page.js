@@ -12,9 +12,15 @@ const LandingPage  = () => {
     </nav>
     <div className=' home-section'>
     <div className="input-searchbar-section">
-     <input className='input-search'/>
+     <input className='input-search' placeholder='Search for artiste'/>
      <i className="bi bi-search search-icon"></i>
     </div>
+    <div className="card">
+  <img src="..." class="card-img-top" alt="..."/>
+  <div class="card-body">
+    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+  </div>
+</div>
     </div>
         </div>
     );
