@@ -1,15 +1,13 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins&family=Roboto&display=swap");
 
 /* Navbar styles */
-.body {
+body {
   font-family: "Poppins", sans-serif;
   overflow-x: hidden;
 }
 
 .default-layout__inner {
   background-color: #08192d;
-  padding: 2rem 0 2rem 0;
-  margin: auto;
 }
 
 .navbar-logo {
@@ -20,26 +18,23 @@
   color: #ffffff;
 }
 
-.navigation {
-  display: none;
-  width: 75%;
-}
-.list-item {
-  font-family: "Poppins", sans-serif;
-  font-size: 16px;
-  color: #ffffff;
-  list-style: none;
-  cursor: pointer;
+.home-section {
+  height: 600px;
+  background: #0a183d;
 }
 
-.home-section{
-  height: 724px;
-    padding-bottom: 90px;
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-align: center;
-    -ms-flex-align: center;
-    align-items: center;
-    background: #0a183d;
+.input-searchbar-section {
+  /* width: 70%;
+  margin: auto; */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.search-icon {
+  position: relative;
+  right: 50px;
+}
+
+.input-search{
+  
 }
