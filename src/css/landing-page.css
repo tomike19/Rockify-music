@@ -7,7 +7,7 @@ body {
 }
 
 .default-layout__inner {
-  background-color: #08192d;
+  background-color: black;
 }
 
 .navbar-logo {
@@ -20,7 +20,6 @@ body {
 
 .home-section {
   height: 800px;
-  background: #0a183d;
 }
 .hero-section {
   width: 80%;
@@ -45,10 +44,9 @@ body {
   height: 40px;
   border-radius: 8px;
   margin-top: 50px;
-  border: 1px solid var(--bc-darker);
   outline: none;
+  border: 1px solid black;
   padding-left: 30px;
-  opacity: 0.4;
 }
 ::placeholder {
   color: black;
@@ -63,11 +61,7 @@ body {
   margin-top: 3rem;
   width: 20rem;
   background-size: contain;
-  background: #0a183d;
-  box-shadow: 0 2.8px 2.2px rgba(0, 0, 0, 0.034),
-    0 6.7px 5.3px rgba(0, 0, 0, 0.048), 0 12.5px 10px rgba(0, 0, 0, 0.06),
-    0 22.3px 17.9px rgba(0, 0, 0, 0.072), 0 41.8px 33.4px rgba(0, 0, 0, 0.086),
-    0 100px 80px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
 }
 
 .card:hover {
@@ -87,8 +81,42 @@ body {
   justify-content: center;
 }
 .card-text {
-  color: #ffffff;
+  color: black;
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+.artiste-description {
+  font-size: 0.8rem;
+  font-weight: normal;
+  margin-top: -10px;
 }
 
-.image-section {
+.view-more-button-section {
+  display: flex;
+  justify-content: flex-end;
+  cursor: pointer;
+}
+
+.view-more-button {
+  background-color: black;
+  border: none;
+  color: white;
+  width: 8rem;
+  height: 40px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 15px;
+}
+@media screen and (max-width: 768px) {
+  .hero-section {
+    width: 100%;
+    margin: auto;
+  }
+  .card-flex {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+  }
 }
