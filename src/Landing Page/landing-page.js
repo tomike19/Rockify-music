@@ -1,6 +1,8 @@
 import React from "react";
 import "../css/landing-page.css";
-import Sia from "../images/sia.jpg";
+import Image1 from "../images/sia.jpg";
+import Image2 from "../images/celine dion.jpg"
+import Image3 from "../images/aquerio.jpg"
 
 const LandingPage = () => {
   return (
@@ -15,18 +17,51 @@ const LandingPage = () => {
           <input className="input-search" placeholder="Search for artiste" />
           <i className="bi bi-search search-icon"></i>
         </div>
+        <div className="card-flex">
         <div className="card artiste-details-section">
-          <img src={Sia} class="card-img-top artiste-image" alt="sia" />
-          <div class="card-img-overlay d-flex flex-column">
-            <h5 class="card-title">Sia</h5>
+          <img src={Image1} class="card-img-top artiste-image" alt="sia" />
+          <div className="card-img-overlay d-flex flex-column">
+            <h5 className="card-title">Sia</h5>
+            <div className="image-overlay"></div>
           </div>
-          <div class="card-overlay"></div>
-          <div class="card-body artiste-details">
-            <p class="card-text">
+          
+          <div className="card-body artiste-details">
+            <p className="card-text">
               Some quick example text to build on the card title and make up the
               bulk of the card's content.
             </p>
           </div>
+        </div>
+         <div className="card artiste-details-section">
+          <img src={Image2} class="card-img-top artiste-image" alt="celion-dion" />
+          <div className="card-img-overlay d-flex flex-column">
+            <h5 className="card-title">Sia</h5>
+            <div className="image-overlay"></div>
+          </div>
+          
+          <div className="card-body artiste-details">
+            <p className="card-text">
+              Some quick example text to build on the card title and make up the
+              bulk of the card's content.
+            </p>
+          </div>
+        </div>
+         <div className="card artiste-details-section">
+         <div className="image-section">
+          <img src={Image3} class="card-img-top artiste-image" alt="sia" />
+         </div>
+          <div className="card-img-overlay d-flex flex-column">
+            <h5 className="card-title">Sia</h5>
+            <div className="image-overlay"></div>
+          </div>
+          
+          <div className="card-body artiste-details">
+            <p className="card-text">
+              Some quick example text to build on the card title and make up the
+              bulk of the card's content.
+            </p>
+          </div>
+        </div>
         </div>
       </div>
     </div>
