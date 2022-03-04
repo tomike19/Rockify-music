@@ -1,0 +1,22 @@
+.img-header {
+    height: 60vh;
+    width: 200%;
+}
+.artist-img {
+    width: 40%;
+    margin-top: -250px;
+    border-radius: 50%;
+}
+.artist-details-container {
+    width: 70%;
+}
+.artist-details {
+    width: 35%;
+}
+.artist-name {
+    font-weight: 600;
+font-size: 40px;
+}
+.album-title {
+
+}

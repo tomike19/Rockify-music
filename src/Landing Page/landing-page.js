@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Form from "../components/Form";
 import "../css/landing-page.css";
 import Sia from "../images/sia.jpg";
+import axios from "axios";  
 
 const LandingPage = () => {
 
@@ -11,7 +12,7 @@ const LandingPage = () => {
 
   const fetchSongs = async () => {
     const res = await axios.get(`https://genius.p.rapidapi.com/search?q=${text}`);
-    
+
   };
 
 
@@ -25,7 +26,7 @@ const LandingPage = () => {
       <div className=" hero-section">
         {/* <Form/> */}
         <div className="input-searchbar-section">
-          <input className="input-search" placeholder="Search for artiste" value={ text}/>
+          <input className="input-search" placeholder="Search for artiste" value={text}/>
           <i className="bi bi-search search-icon"></i>
         </div>
         <div className="card artiste-details-section">
