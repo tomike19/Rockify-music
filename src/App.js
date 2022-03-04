@@ -1,10 +1,13 @@
 import './App.css';
+import SingleArtist from './SingleArtistDetailsPage/singleArtist';
 import LandingPage from './Landing Page/landing-page';
 
-function App() {
+const App = () =>  {
+
   return (
     <div className="">
-    <LandingPage/>
+      {/* <SingleArtist /> */}
+      <LandingPage/>
     </div>
   );
 }
