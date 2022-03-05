@@ -14,7 +14,7 @@ const LandingPage = () => {
 
   function getArtisteDetails() {
     axios
-      .get(`https://jsonplaceholder.typicode.com/users`)
+      .get(`https://genius.p.rapidapi.com/artists/16775/songs'`)
       .then((res) => {
         console.log(res)
         setArtisteName(res.data)
