@@ -1,6 +1,7 @@
 import React from "react";
 import "../css/singleartist.css";
 import Sia from "../images/sia-img-header.jpg";
+import verifiedicon from "../images/verified-icon.png";
 
 const SingleArtist = () => {
   return (
@@ -23,20 +24,25 @@ const SingleArtist = () => {
 
       <section class="py-5">
         <div class="container">
-          <div class="artist-details-container">
-            <img src={Sia} alt="artist-img" class="artist-img" />
-            <div class="artist-details mt-4">
-              <h2 class="artist-name text-center">Sia</h2>
-              <p class="album-title text-center">Song Title</p>
+          <div class="artist-details-container row">
+            <img src={Sia} alt="artist-img" class="artist-img col-6" />
+          </div>
+          <div class="artist-details mt-4">
+            <h2 class="artist-name text-center">Sia</h2>
+            <p class="album-title text-center">
+              Acho Que Vou Gostar Daqui by Félix Ferrà
+            </p>
+          </div>
+          <div class="artist-library d-flex justify-content-between">
+              <img src={Sia} class="artiste-image" alt="sia" />
+            <div class="">
+              <h5 class="card-title">Sia</h5>
+              <p class="-text">
+                Some quick example text to build on the card title and make up
+                the bulk of the card's content.
+              </p>
             </div>
           </div>
-          <h2 class="fw-light">Page Content</h2>
-          <p>
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-            Repellendus ab nulla dolorum autem nisi officiis blanditiis
-            voluptatem hic, assumenda aspernatur facere ipsam nemo ratione
-            cumque magnam enim fugiat reprehenderit expedita.
-          </p>
         </div>
       </section>
     </div>
