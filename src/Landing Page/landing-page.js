@@ -1,9 +1,5 @@
 import React, { useState, useCallback, useEffect } from 'react'
-import Form from '../components/Form'
 import '../css/landing-page.css'
-import Image1 from '../images/sia.jpg'
-import Image2 from '../images/celine dion.jpg'
-import Image3 from '../images/aquerio.jpg'
 import axios from 'axios'
 import ArtistInfo from '../components/ArtistInfo'
 
@@ -174,7 +170,7 @@ const LandingPage = () => {
                   <div class="card-body artiste-details">
                     <p className="card-text artiste-name">{info.name}</p>
                     <p className="card-text artiste-description">
-                        Facebook: {info.facebook_name}
+                      Facebook: {info.facebook_name}
                       {/* {info.description.dom.children[0].children[0]} */}
                     </p>
                     <div className="view-more-button-section">
@@ -185,35 +181,9 @@ const LandingPage = () => {
                 </div>
               )
             })}
-          {/* <div className="card artiste-details-section">
-            <img src={Image2} class="card-img-top artiste-image" alt="sia" />
-            <div className="card-body artiste-details">
-              <p className="card-text artiste-name">Celine Dion</p>
-              <p className="card-text artiste-description">
-                Sia Kate Isobelle Furler is an Australian singer and songwriter.
-                She started her career as a singer in the acid jazz band Crisp
-                in the mid-1990s in Adelaide.
-              </p>
-              <div className="view-more-button-section">
-                <button className="view-more-button"> View more</button>
-              </div>
-            </div>
-          </div>
 
-          <div className="card artiste-details-section">
-            <img src={Image3} class="card-img-top artiste-image" alt="sia" />
-            <div className="card-body artiste-details">
-              <p className="card-text artiste-name">Christianah Aquerio</p>
-              <p className="card-text artiste-description">
-                Sia Kate Isobelle Furler is an Australian singer and songwriter.
-                She started her career as a singer in the acid jazz band Crisp
-                in the mid-1990s in Adelaide.
-              </p>
-              <div className="view-more-button-section">
-                <button className="view-more-button"> View more</button>
-              </div>
-            </div>
-          </div> */}
+
+             
         </div>
       </div>
     </div>
