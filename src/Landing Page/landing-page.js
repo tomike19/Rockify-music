@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import Form from '../components/Form'
 import '../css/landing-page.css'
-import Sia from '../images/sia.jpg'
 import Image1 from '../images/sia.jpg'
 import Image2 from '../images/celine dion.jpg'
 import Image3 from '../images/aquerio.jpg'
@@ -67,7 +66,7 @@ const LandingPage = () => {
         </form>
         <div className="card-flex">
           <div className="card artiste-details-section">
-            <img src={Sia} class="card-img-top artiste-image" alt="sia" />
+            <img src={Image1} class="card-img-top artiste-image" alt="sia" />
             <div class="card-img-overlay d-flex flex-column">
               <h5 class="card-title">{artistInfo.name}</h5>
             </div>
