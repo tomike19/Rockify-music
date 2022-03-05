@@ -27,8 +27,6 @@ body {
 }
 
 .input-searchbar-section {
-  /* width: 70%;
-  margin: auto; */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -54,8 +52,9 @@ body {
 }
 
 .card-flex {
-  display: flex;
-  gap: 3rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 4rem;
 }
 .card {
   margin-top: 3rem;
