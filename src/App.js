@@ -1,15 +1,14 @@
-import './App.css';
-import SingleArtist from './SingleArtistDetailsPage/singleArtist';
-import LandingPage from './Landing Page/landing-page';
+import './App.css'
+// import SingleArtist from './SingleArtistDetailsPage/singleArtist';
+import LandingPage from './Landing Page/landing-page'
 
-const App = () =>  {
-
+const App = () => {
   return (
     <div className="">
-      <SingleArtist />
-      <LandingPage/>
+      {/* <SingleArtist /> */}
+      <LandingPage />
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
