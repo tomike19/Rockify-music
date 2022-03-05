@@ -1,14 +1,51 @@
-import React, { useState } from 'react'
-import Form from '../components/Form'
+import React, { useState, useCallback, useEffect } from 'react'
 import '../css/landing-page.css'
-import Image1 from '../images/sia.jpg'
-import Image2 from '../images/celine dion.jpg'
-import Image3 from '../images/aquerio.jpg'
 import axios from 'axios'
 import ArtistInfo from '../components/ArtistInfo'
 
 // let API = "2268a7a061msh4037261da8c73fdp1c2c5bjsnb67878ef66d3";
+const $api = {
+  $axios: axios.create({
+    baseURL: 'https://genius.p.rapidapi.com',
+    headers: {
+      'x-rapidapi-host': 'genius.p.rapidapi.com',
+      'x-rapidapi-key': '2268a7a061msh4037261da8c73fdp1c2c5bjsnb67878ef66d3',
+    },
+  }),
+  async getArtists(params = {}) {
+    const { data } = await this.$axios.get('/artists', { params })
 
+    return data
+  },
+  async search(search) {
+    const { data } = await this.$axios.get('/search', { params: { q: search } })
+
+    return data
+  },
+  async getArtist(id) {
+    const { data } = await this.$axios.get(`/artists/${id}`)
+
+    return data
+  },
+}
+const debounce = (func, wait) => {
+  let timer
+  let shouldInvoke
+  const debounced = (...args) => {
+    clearTimeout(timer)
+    if (shouldInvoke) {
+      shouldInvoke = false
+      return func(...args)
+    }
+
+    timer = setTimeout(() => {
+      shouldInvoke = true
+      debounced(...args)
+    }, wait)
+  }
+
+  return debounced
+}
 const LandingPage = () => {
   const [artistInfo, setArtistInfo] = useState([])
   const [text, setText] = useState('')
@@ -23,6 +60,57 @@ const LandingPage = () => {
       'x-rapidapi-key': '2268a7a061msh4037261da8c73fdp1c2c5bjsnb67878ef66d3',
     },
   }
+
+  const getArtists = useCallback(async () => {
+    try {
+      setLoading(true)
+      const artists = await $api.search('a')
+      setArtistInfo([])
+
+      const artistInfo = await Promise.all(
+        artists.response.hits.map(async (artist) => {
+          const info = await $api.getArtist(artist.result.primary_artist.id)
+          setArtistInfo((a) => [...a, info.response.artist])
+          console.log(info.response.artist)
+          // return info.response.artist
+        }),
+      )
+      console.log(artistInfo)
+      // setArtistInfo(artistInfo)
+    } catch (error) {
+      console.log('error getting artists', error.message)
+    } finally {
+      setLoading(false)
+    }
+  }, [])
+
+  const handleSearch = useCallback(
+    debounce(async (search) => {
+      try {
+        setLoading(true)
+        const artists = await $api.search(search)
+        setArtistInfo([])
+        const artistInfo = await Promise.all(
+          artists.response.hits.map(async (artist) => {
+            const info = await $api.getArtist(artist.result.primary_artist.id)
+            setArtistInfo((a) => [...a, info.response.artist])
+            // return info.response.artist
+          }),
+        )
+        console.log(artistInfo)
+        // setArtistInfo(artistInfo)
+      } catch (error) {
+        console.log('error searching for artists', error.message)
+      } finally {
+        setLoading(false)
+      }
+    }, 500),
+    [],
+  )
+
+  useEffect(() => {
+    getArtists()
+  }, [getArtists])
 
   const fetchSongs = async (text) => {
     setLoading(true)
@@ -42,6 +130,7 @@ const LandingPage = () => {
   const handleSubmit = (e) => {
     e.preventDefault()
     fetchSongs(text)
+    handleSearch(text)
   }
 
   return (
@@ -65,53 +154,36 @@ const LandingPage = () => {
           </div>
         </form>
         <div className="card-flex">
-          <div className="card artiste-details-section">
-            <img src={Image1} class="card-img-top artiste-image" alt="sia" />
-            <div class="card-img-overlay d-flex flex-column">
-              <h5 class="card-title">{artistInfo.name}</h5>
-            </div>
-            <div class="card-body artiste-details">
-              <p className="card-text artiste-name">Celine Dion</p>
-              <p className="card-text artiste-description">
-                Sia Kate Isobelle Furler is an Australian singer and songwriter.
-                She started her career as a singer in the acid jazz band Crisp
-                in the mid-1990s in Adelaide.
-              </p>
-              <div className="view-more-button-section">
-                <button className="view-more-button"> View more</button>
-              </div>
-              <ArtistInfo artistInfo={artistInfo} />
-            </div>
-          </div>
-          <div className="card artiste-details-section">
-            <img src={Image2} class="card-img-top artiste-image" alt="sia" />
-            <div className="card-body artiste-details">
-              <p className="card-text artiste-name">Celine Dion</p>
-              <p className="card-text artiste-description">
-                Sia Kate Isobelle Furler is an Australian singer and songwriter.
-                She started her career as a singer in the acid jazz band Crisp
-                in the mid-1990s in Adelaide.
-              </p>
-              <div className="view-more-button-section">
-                <button className="view-more-button"> View more</button>
-              </div>
-            </div>
-          </div>
+          {artistInfo
+            .filter((a, i, arr) => arr.map((i) => i.id).indexOf(a.id) === i)
+            .map((info) => {
+              return (
+                <div className="card artiste-details-section" key={info.id}>
+                  <img
+                    src={info.image_url}
+                    class="card-img-top artiste-image"
+                    alt="sia"
+                  />
+                  <div class="card-img-overlay d-flex flex-column">
+                    <h5 class="card-title">{artistInfo.name}</h5>
+                  </div>
+                  <div class="card-body artiste-details">
+                    <p className="card-text artiste-name">{info.name}</p>
+                    <p className="card-text artiste-description">
+                      Facebook: {info.facebook_name}
+                      {/* {info.description.dom.children[0].children[0]} */}
+                    </p>
+                    <div className="view-more-button-section">
+                      <button className="view-more-button"> View more</button>
+                    </div>
+                    <ArtistInfo artistInfo={artistInfo} />
+                  </div>
+                </div>
+              )
+            })}
 
-          <div className="card artiste-details-section">
-            <img src={Image3} class="card-img-top artiste-image" alt="sia" />
-            <div className="card-body artiste-details">
-              <p className="card-text artiste-name">Christianah Aquerio</p>
-              <p className="card-text artiste-description">
-                Sia Kate Isobelle Furler is an Australian singer and songwriter.
-                She started her career as a singer in the acid jazz band Crisp
-                in the mid-1990s in Adelaide.
-              </p>
-              <div className="view-more-button-section">
-                <button className="view-more-button"> View more</button>
-              </div>
-            </div>
-          </div>
+
+             
         </div>
       </div>
     </div>
