@@ -2,16 +2,17 @@ import React, { useState, useCallback, useEffect } from 'react'
 import '../css/landing-page.css'
 import axios from 'axios'
 import ArtistInfo from '../components/ArtistInfo'
-
+import { Link } from 'react-router-dom'
+import $api from "../helpers/api";
 // let API = "2268a7a061msh4037261da8c73fdp1c2c5bjsnb67878ef66d3";
 const $api = {
-  $axios: axios.create({
-    baseURL: 'https://genius.p.rapidapi.com',
-    headers: {
-      'x-rapidapi-host': 'genius.p.rapidapi.com',
-      'x-rapidapi-key': '2268a7a061msh4037261da8c73fdp1c2c5bjsnb67878ef66d3',
-    },
-  }),
+  // $axios: axios.create({
+  //   baseURL: 'https://genius.p.rapidapi.com',
+  //   headers: {
+  //     'x-rapidapi-host': 'genius.p.rapidapi.com',
+  //     'x-rapidapi-key': '2268a7a061msh4037261da8c73fdp1c2c5bjsnb67878ef66d3',
+  //   },
+  // }),
   async getArtists(params = {}) {
     const { data } = await this.$axios.get('/artists', { params })
 
@@ -51,15 +52,20 @@ const LandingPage = () => {
   const [text, setText] = useState('')
   const [loading, setLoading] = useState(false)
 
-  var options = {
-    method: 'GET',
-    url: 'https://genius.p.rapidapi.com/search',
-    params: { q: 'Kendrick Lamar' },
-    headers: {
-      'x-rapidapi-host': 'genius.p.rapidapi.com',
-      'x-rapidapi-key': '2268a7a061msh4037261da8c73fdp1c2c5bjsnb67878ef66d3',
-    },
-  }
+const fetchSongs = useCallback(() => {
+    $api
+      .$get('https://genius.p.rapidapi.com/search?q=${text}`,')
+      .then(({ marketers }) => setMarketers(marketers))
+      .catch((err) => {
+        if (err.status !== 403) {
+          toast.error(err.message, { autoClose: false })
+        }
+      })
+  }, [])
+
+  useEffect(() => {
+    getMarketers()
+  }, [getMarketers])
 
   const getArtists = useCallback(async () => {
     try {
@@ -112,16 +118,16 @@ const LandingPage = () => {
     getArtists()
   }, [getArtists])
 
-  const fetchSongs = async (text) => {
-    setLoading(true)
-    const { data } = await axios.get(
-      `https://genius.p.rapidapi.com/search?q=${text}`,
-      options,
-    )
-    console.log(data.response.hits)
-    setArtistInfo(data.response.hits)
-    setLoading(false)
-  }
+  // const fetchSongs = async (text) => {
+  //   setLoading(true)
+  //   const { data } = await axios.get(
+  //     `https://genius.p.rapidapi.com/search?q=${text}`,
+  //     options,
+  //   )
+  //   console.log(data.response.hits)
+  //   setArtistInfo(data.response.hits)
+  //   setLoading(false)
+  // }
 
   const handleChange = (e) => {
     setText(e.target.value)
@@ -174,16 +180,15 @@ const LandingPage = () => {
                       {/* {info.description.dom.children[0].children[0]} */}
                     </p>
                     <div className="view-more-button-section">
-                      <button className="view-more-button"> View more</button>
+                      <Link to="/SingleArtist/:id">
+                        <button className="view-more-button"> View more</button>
+                      </Link>
                     </div>
                     <ArtistInfo artistInfo={artistInfo} />
                   </div>
                 </div>
               )
             })}
-
-
-             
         </div>
       </div>
     </div>
