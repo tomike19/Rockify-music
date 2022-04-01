@@ -1,20 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import '../css/singleartist.css'
 import Sia from '../images/sia-img-header.jpg'
-import verifiedicon from '../images/verified-icon.png'
 import { useParams } from 'react-router-dom'
 import axios from 'axios'
 
 
-const $api = {
-  $axios: axios.create({
-    baseURL: 'https://genius.p.rapidapi.com',
-    headers: {
-      'x-rapidapi-host': 'genius.p.rapidapi.com',
-      'x-rapidapi-key': '2268a7a061msh4037261da8c73fdp1c2c5bjsnb67878ef66d3',
-    },
-  }),
-}
+
 const SingleArtist = () => {
   const { id } = useParams()
   const [post, SetPost] = useState({})
