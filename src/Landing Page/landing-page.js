@@ -1,143 +1,62 @@
-import React, { useState, useCallback, useEffect } from 'react'
-import '../css/landing-page.css'
-import axios from 'axios'
-import ArtistInfo from '../components/ArtistInfo'
-import { Link } from 'react-router-dom'
+import React, { useState, useCallback, useEffect } from "react";
+import "../css/landing-page.css";
+import ArtistInfo from "../components/ArtistInfo";
+import { Link } from "react-router-dom";
 import $api from "../helpers/api";
-// let API = "2268a7a061msh4037261da8c73fdp1c2c5bjsnb67878ef66d3";
-const $api = {
-  // $axios: axios.create({
-  //   baseURL: 'https://genius.p.rapidapi.com',
-  //   headers: {
-  //     'x-rapidapi-host': 'genius.p.rapidapi.com',
-  //     'x-rapidapi-key': '2268a7a061msh4037261da8c73fdp1c2c5bjsnb67878ef66d3',
-  //   },
-  // }),
-  async getArtists(params = {}) {
-    const { data } = await this.$axios.get('/artists', { params })
+import debounce from "lodash.debounce";
 
-    return data
-  },
-  async search(search) {
-    const { data } = await this.$axios.get('/search', { params: { q: search } })
-
-    return data
-  },
-  async getArtist(id) {
-    const { data } = await this.$axios.get(`/artists/${id}`)
-
-    return data
-  },
-}
-const debounce = (func, wait) => {
-  let timer
-  let shouldInvoke
-  const debounced = (...args) => {
-    clearTimeout(timer)
-    if (shouldInvoke) {
-      shouldInvoke = false
-      return func(...args)
-    }
-
-    timer = setTimeout(() => {
-      shouldInvoke = true
-      debounced(...args)
-    }, wait)
-  }
-
-  return debounced
-}
 const LandingPage = () => {
-  const [artistInfo, setArtistInfo] = useState([])
-  const [text, setText] = useState('')
-  const [loading, setLoading] = useState(false)
+  const [artistInfo, setArtistInfo] = useState([]);
+  const [text, setText] = useState("");
+  const [loading, setLoading] = useState(false);
 
-const fetchSongs = useCallback(() => {
-    $api
-      .$get('https://genius.p.rapidapi.com/search?q=${text}`,')
-      .then(({ marketers }) => setMarketers(marketers))
-      .catch((err) => {
-        if (err.status !== 403) {
-          toast.error(err.message, { autoClose: false })
-        }
-      })
-  }, [])
-
-  useEffect(() => {
-    getMarketers()
-  }, [getMarketers])
-
-  const getArtists = useCallback(async () => {
+  const getArtists = useCallback(async (search = "a") => {
     try {
-      setLoading(true)
-      const artists = await $api.search('a')
-      setArtistInfo([])
+      setLoading(true);
+      const artists = await $api.$get("/search", { params: { q: search } });
+      setArtistInfo([]);
 
-      const artistInfo = await Promise.all(
-        artists.response.hits.map(async (artist) => {
-          const info = await $api.getArtist(artist.result.primary_artist.id)
-          setArtistInfo((a) => [...a, info.response.artist])
-          console.log(info.response.artist)
-          // return info.response.artist
-        }),
-      )
-      console.log(artistInfo)
-      // setArtistInfo(artistInfo)
+      const map = artists.response.hits.reduce((acc, cur) => {
+        return {
+          ...acc,
+          [cur.result.primary_artist.id]: cur.result.primary_artist.id,
+        };
+      }, {});
+
+      await Promise.all(
+        Object.keys(map).map(async (artist) => {
+          const info = await $api.$get(`/artists/${artist}`);
+          setArtistInfo((a) => [...a, info.response.artist]);
+        })
+      );
     } catch (error) {
-      console.log('error getting artists', error.message)
+      console.log("error getting artists", error.message);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }, [])
+  }, []);
 
-  const handleSearch = useCallback(
-    debounce(async (search) => {
-      try {
-        setLoading(true)
-        const artists = await $api.search(search)
-        setArtistInfo([])
-        const artistInfo = await Promise.all(
-          artists.response.hits.map(async (artist) => {
-            const info = await $api.getArtist(artist.result.primary_artist.id)
-            setArtistInfo((a) => [...a, info.response.artist])
-            // return info.response.artist
-          }),
-        )
-        console.log(artistInfo)
-        // setArtistInfo(artistInfo)
-      } catch (error) {
-        console.log('error searching for artists', error.message)
-      } finally {
-        setLoading(false)
-      }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const searchArtist = useCallback(
+    debounce((search) => {
+      getArtists(search);
     }, 500),
-    [],
-  )
+    []
+  );
 
   useEffect(() => {
-    getArtists()
-  }, [getArtists])
-
-  // const fetchSongs = async (text) => {
-  //   setLoading(true)
-  //   const { data } = await axios.get(
-  //     `https://genius.p.rapidapi.com/search?q=${text}`,
-  //     options,
-  //   )
-  //   console.log(data.response.hits)
-  //   setArtistInfo(data.response.hits)
-  //   setLoading(false)
-  // }
+    getArtists();
+  }, [getArtists]);
 
   const handleChange = (e) => {
-    setText(e.target.value)
-  }
+    setText(e.target.value);
+    searchArtist(e.target.value);
+  };
 
   const handleSubmit = (e) => {
-    e.preventDefault()
-    fetchSongs(text)
-    handleSearch(text)
-  }
+    e.preventDefault();
+    searchArtist(text);
+  };
 
   return (
     <div className="home-section">
@@ -187,11 +106,36 @@ const fetchSongs = useCallback(() => {
                     <ArtistInfo artistInfo={artistInfo} />
                   </div>
                 </div>
-              )
+              );
             })}
         </div>
+        {!artistInfo.length && loading ? (
+          <div
+            style={{
+              width: "100%",
+              minHeight: "60vh",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            Loading Data...
+          </div>
+        ) : (
+          <div
+            style={{
+              width: "100%",
+              minHeight: "60vh",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            No Data
+          </div>
+        )}
       </div>
     </div>
-  )
-}
-export default LandingPage
+  );
+};
+export default LandingPage;
